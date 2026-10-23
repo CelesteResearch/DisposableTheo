@@ -1,0 +1,448 @@
+{
+  "outputs": [
+    {
+      "path": "Triggers/DisposableTheoTrigger.cs",
+      "sha256": "50715835213d175a1a2792780e12aec05c1711b9288a4466a5917769608f62e0",
+      "segments": [
+        {
+          "literal": "using System.Numerics;\nusing Celeste.Core.Components;\nusing Celeste.Core.Mathematics.Extrema;\nusing Celeste.Core.Reflection.Runtime;\nusing Celeste.Core.Scheduling;\nusing Celeste.Everest.Modules.Entities.Metadata;\nusing Celeste.Formats.Map.Entities.Structure;\nusing Celeste.Simulation;\nusing Celeste.Simulation.Gameplay.Triggers.Foundation;\nusing Celeste.Mods.DisposableTheo.Modules;\nusing Celeste.Mods.DisposableTheo.Runtime;\n\nnamespace Celeste.Mods.DisposableTheo.Triggers;\n\n"
+        },
+        {
+          "indent": 0,
+          "source": {
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoTrigger",
+            "maps": {},
+            "memberKind": "class",
+            "part": "attributes",
+            "input": "original",
+            "format": "normalize",
+            "memberName": "DisposableTheoTrigger"
+          }
+        },
+        {
+          "literal": "\n[RuntimeTypeAlias(\"Celeste.Mod.DisposableTheo.DisposableTheoTrigger\")]\npublic sealed class DisposableTheoTrigger : SourceTriggerEntityState\n{\n    private readonly DisposableTheoHooks runtime;\n\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoTrigger",
+            "maps": {},
+            "memberKind": "field",
+            "part": "full",
+            "input": "original",
+            "format": "normalize",
+            "memberName": "disposable"
+          }
+        },
+        {
+          "literal": "\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoTrigger",
+            "maps": {},
+            "memberKind": "field",
+            "part": "full",
+            "input": "original",
+            "format": "normalize",
+            "memberName": "canLeaveBehind"
+          }
+        },
+        {
+          "literal": "\n"
+        },
+        {
+          "literal": "\n    public DisposableTheoTrigger(ISourceEngineContext engine, EntityData data, Vector2 offset)\n        : base(((ISourceEntitySourceDataEnvironment)engine).EntitySourceDataRegistration,\n            data.Position + offset, data.Width, data.Height,\n            ((ISourceExtremaEnvironment)engine).ExtremaArithmetic)\n    {\n        runtime = DisposableTheoModule.For(engine).Runtime;\n"
+        },
+        {
+          "indent": 2,
+          "source": {
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoTrigger",
+            "parameterTypes": [
+              "EntityData",
+              "Vector2"
+            ],
+            "maps": {
+              "removeArgumentNames": [
+                "defaultValue"
+              ]
+            },
+            "memberKind": "constructor",
+            "part": "statements",
+            "input": "original",
+            "format": "normalize",
+            "memberName": "DisposableTheoTrigger"
+          }
+        },
+        {
+          "literal": "\n    }\n"
+        },
+        {
+          "literal": "\n    public override void OnEnter(RoomPlayerSession player)\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoTrigger",
+            "parameterTypes": [
+              "Player"
+            ],
+            "maps": {
+              "identifiers": {
+                "Disposable": "runtime.Disposable",
+                "CanLeaveBehind": "runtime.CanLeaveBehind"
+              }
+            },
+            "memberKind": "method",
+            "part": "body",
+            "input": "original",
+            "format": "normalize",
+            "memberName": "OnEnter"
+          }
+        },
+        {
+          "literal": "\n"
+        },
+        {
+          "literal": "\n    public override void SceneEnd(object scene)\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoTrigger",
+            "parameterTypes": [
+              "Scene"
+            ],
+            "maps": {
+              "identifiers": {
+                "Disposable": "runtime.Disposable",
+                "CanLeaveBehind": "runtime.CanLeaveBehind"
+              }
+            },
+            "memberKind": "method",
+            "part": "body",
+            "input": "original",
+            "format": "normalize",
+            "memberName": "SceneEnd"
+          }
+        },
+        {
+          "literal": "\n"
+        },
+        {
+          "literal": "\n    public override void Removed(object scene)\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoTrigger",
+            "parameterTypes": [
+              "Scene"
+            ],
+            "maps": {
+              "identifiers": {
+                "Disposable": "runtime.Disposable",
+                "CanLeaveBehind": "runtime.CanLeaveBehind"
+              }
+            },
+            "memberKind": "method",
+            "part": "body",
+            "input": "original",
+            "format": "normalize",
+            "memberName": "Removed"
+          }
+        },
+        {
+          "literal": "\n"
+        },
+        {
+          "literal": "}\n"
+        }
+      ]
+    },
+    {
+      "path": "Modules/DisposableTheoModule.cs",
+      "sha256": "d467e9910a668b36406d68d19d0c822fc4ba747f8b346bf349d4284102b24ef9",
+      "segments": [
+        {
+          "literal": "using System;\nusing System.Linq;\nusing Celeste.Core.Scheduling;\nusing Celeste.Core.Reflection.Runtime;\nusing Celeste.Everest.Modules.Runtime;\nusing Celeste.Mods.DisposableTheo.Runtime;\nusing Celeste.Mods.DisposableTheo.Settings;\n\nnamespace Celeste.Mods.DisposableTheo.Modules\n{\n    [RuntimeTypeAlias(\"Celeste.Mod.DisposableTheo.DisposableTheoModule\")]\n    public sealed class DisposableTheoModule : SourceEverestModule\n    {\n        public override Type SettingsType => typeof(DisposableTheoSettings);\n        public DisposableTheoSettings Settings => (DisposableTheoSettings)_Settings;\n        internal DisposableTheoHooks Runtime { get; private set; }\n        internal ISourceEngineContext Engine => SourceEngine;\n\n        public DisposableTheoModule(ISourceEngineContext engine) : base(engine)\n        {\n        }\n\n        public override void Load()\n        {\n            Runtime = new DisposableTheoHooks(this);\n            Runtime.Load();\n        }\n\n        public override void Unload()\n        {\n            Runtime?.Dispose();\n            Runtime = null;\n        }\n\n        internal static DisposableTheoModule For(ISourceEngineContext engine)\n            => ((ISourceEverestModulesEnvironment)engine).Modules.OfType<DisposableTheoModule>().Single();\n    }\n}\n"
+        }
+      ]
+    },
+    {
+      "path": "Settings/DisposableTheoSettings.cs",
+      "sha256": "871ba09d4af2feada59d89591a1dc0f3f67dfcbf53b7e5a646a9eed8c01ad3f4",
+      "segments": [
+        {
+          "literal": "using System.Collections.Generic;\nusing Celeste.Core.Reflection.Runtime;\nusing Celeste.Everest.Modules.Settings;\nusing Celeste.Everest.Settings.Metadata;\nusing Celeste.Everest.UI.Settings;\nusing Celeste.Simulation.UI.Menus.Text;\n\nnamespace Celeste.Mods.DisposableTheo.Settings;\n\n[RuntimeTypeAlias(\"Celeste.Mod.DisposableTheo.DisposableTheoSettings\")]\npublic class DisposableTheoSettings : EverestModuleSettings\n{\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "input": "DisposableTheoSettings",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoSettings",
+            "memberKind": "property",
+            "memberName": "Enabled",
+            "part": "full",
+            "format": "normalize",
+            "maps": {}
+          }
+        },
+        {
+          "literal": "\n\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "input": "DisposableTheoSettings",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoSettings",
+            "memberKind": "property",
+            "memberName": "Disposable",
+            "part": "full",
+            "format": "normalize",
+            "maps": {}
+          }
+        },
+        {
+          "literal": "\n\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "input": "DisposableTheoSettings",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoSettings",
+            "memberKind": "property",
+            "memberName": "CanLeaveBehind",
+            "part": "full",
+            "format": "normalize",
+            "maps": {}
+          }
+        },
+        {
+          "literal": "\n\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "input": "DisposableTheoSettings",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoSettings",
+            "memberKind": "property",
+            "memberName": "VerticalThrow",
+            "part": "full",
+            "format": "normalize",
+            "maps": {}
+          }
+        },
+        {
+          "literal": "\n\n"
+        },
+        {
+          "literal": "    public void CreateEnabledEntry(TextMenuPresentation menu, bool inGame)\n"
+        },
+        {
+          "indent": 1,
+          "source": {
+            "input": "DisposableTheoSettings",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoSettings",
+            "memberKind": "method",
+            "memberName": "CreateEnabledEntry",
+            "part": "body",
+            "format": "normalize",
+            "maps": {
+              "types": {
+                "TextMenuExt.OptionSubMenu": "EverestOptionSubMenu",
+                "TextMenu.Item": "TextMenuPresentation.Item",
+                "TextMenu.OnOff": "TextMenuPresentation.OnOff"
+              },
+              "constructors": {
+                "TextMenuExt.OptionSubMenu": {
+                  "prefix": [
+                    "menu.Resources"
+                  ]
+                },
+                "TextMenu.OnOff": {
+                  "suffix": [
+                    "menu.EngineContext"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "literal": "\n}\n"
+        }
+      ]
+    },
+    {
+      "path": "Runtime/DisposableTheoHooks.Throw.cs",
+      "sha256": "c4790e97c113d9166eb54423757bf14841d1ded3e4ab8711235bfd5e0e9e5a4a",
+      "segments": [
+        {
+          "literal": "using System;\nusing System.Numerics;\nusing Celeste.Input.Gameplay.Feedback;\nusing Celeste.Simulation;\nusing Celeste.Simulation.Gameplay.Holdables;\n\nnamespace Celeste.Mods.DisposableTheo.Runtime;\n\npublic sealed partial class DisposableTheoHooks\n{\n    private void Throw(Action<PlayerHoldingController> orig, PlayerHoldingController holding)\n    {\n        var player = holding.Body.SourceColliderOwner as RoomPlayerSession;\n        if (player == null || !ReferenceEquals(player.EngineContext, module.Engine))\n        {\n            orig(holding);\n            return;\n        }\n"
+        },
+        {
+          "indent": 2,
+          "source": {
+            "input": "DisposableTheoModule",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoModule",
+            "memberKind": "method",
+            "memberName": "Player_Throw",
+            "part": "statements",
+            "format": "normalize",
+            "maps": {
+              "identifiers": {
+                "Settings": "module.Settings",
+                "self": "holding"
+              },
+              "memberAccess": {
+                "self.Speed": "holding.Data.Motion.Normal.Speed",
+                "self.Play": "player.Play",
+                "self.Sprite": "player.Sprite",
+                "Input.MoveY": "holding.Input.MoveY.Value",
+                "Input.MoveX": "holding.Input.MoveX.Value",
+                "Input.Rumble": "((ISourceRumbleEnvironment)module.Engine).RumbleSession.Rumble",
+                "RumbleStrength.Strong": "2",
+                "RumbleLength.Short": "0"
+              },
+              "assignmentCalls": {
+                "self.Holding": "holding.SetHolding"
+              }
+            }
+          }
+        },
+        {
+          "literal": "\n    }\n}\n"
+        }
+      ]
+    },
+    {
+      "path": "Runtime/DisposableTheoHooks.cs",
+      "sha256": "d1bdd1362010913e37fcf8911c211c896b25538af791deb3bc8e025877dbd754",
+      "segments": [
+        {
+          "literal": "using System;\nusing System.Collections.Generic;\nusing System.Numerics;\nusing Celeste.Core.Scheduling;\nusing Celeste.Game.Content.Maps.Levels;\nusing Celeste.Game.Execution.Levels;\nusing Celeste.Game.Gameplay.Holdables.TheoCrystal;\nusing Celeste.Mods.DisposableTheo.Modules;\nusing Celeste.Scene.Tracking;\nusing Celeste.Scene.Scheduling.ExecutionTags;\nusing Celeste.Simulation;\nusing Celeste.Simulation.Gameplay.Holdables;\nusing Mono.Cecil;\nusing Mono.Cecil.Cil;\nusing MonoMod.Cil;\nusing MonoMod.RuntimeDetour;\n\nnamespace Celeste.Mods.DisposableTheo.Runtime\n{\n    public sealed partial class DisposableTheoHooks : IDisposable\n    {\n        private readonly DisposableTheoModule module;\n        private readonly List<IDisposable> hooks = new();\n        internal bool Disposable, CanLeaveBehind;\n\n        internal DisposableTheoHooks(DisposableTheoModule module)\n        {\n            this.module = module;\n        }\n\n        internal void Load()\n        {\n            try\n            {\n                hooks.Add(new ILHook(typeof(TheoCrystalState).GetMethod(nameof(TheoCrystalState.Die)), HookTheoDeath));\n                hooks.Add(new ILHook(\n                    typeof(OriginalLevelSceneRoot).GetMethod(nameof(OriginalLevelSceneRoot.EnforceBounds)),\n                    HookBounds));\n                hooks.Add(new Hook(\n                    typeof(OriginalLevelSceneRoot).GetMethod(nameof(OriginalLevelSceneRoot.TransitionTo)),\n                    (Action<Action<OriginalLevelSceneRoot, OriginalLevelRoomData, Vector2>, OriginalLevelSceneRoot,\n                        OriginalLevelRoomData, Vector2>)Transition));\n                // PlayerWorld's genuine Throw consumer calls this controller directly.\n                hooks.Add(new Hook(typeof(PlayerHoldingController).GetMethod(nameof(PlayerHoldingController.Throw)),\n                    (Action<Action<PlayerHoldingController>, PlayerHoldingController>)Throw));\n            }\n            catch\n            {\n                Dispose();\n                throw;\n            }\n        }\n\n        public void Dispose()\n        {\n            for (int i = hooks.Count - 1; i >= 0; i--) hooks[i].Dispose();\n            hooks.Clear();\n            Disposable = CanLeaveBehind = false;\n        }\n\n        private bool Owns(object scene) => scene is ISourceEngineContextScene owner &&\n                                           ReferenceEquals(owner.EngineContext, module.Engine);\n\n        private void HookTheoDeath(ILContext il)\n        {\n            var cursor = new ILCursor(il);\n            bool found = false;\n            while (cursor.TryGotoNext(MoveType.After, instruction => instruction.OpCode == OpCodes.Callvirt &&\n                                                                     instruction.Operand is GenericInstanceMethod\n                                                                         method && method.Name == \"GetTrackedEntity\" &&\n                                                                     method.GenericArguments.Count == 1 &&\n                                                                     method.GenericArguments[0].FullName ==\n                                                                     typeof(RoomPlayerSession).FullName))\n            {\n                found = true;\n                cursor.Emit(OpCodes.Ldarg_0);\n                cursor.EmitDelegate<Func<RoomPlayerSession, TheoCrystalState, RoomPlayerSession>>((player, theo) =>\n                    Owns(theo.Scene) ? ("
+        },
+        {
+          "indent": 0,
+          "source": {
+            "input": "DisposableTheoModule",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoModule",
+            "memberKind": "method",
+            "memberName": "TheoCrystal_Die",
+            "part": "lambdaBody",
+            "format": "normalize",
+            "maps": {
+              "identifiers": {
+                "Settings": "module.Settings",
+                "theo": "player"
+              },
+              "memberAccess": {
+                "DisposableTheoTrigger.Disposable": "Disposable"
+              }
+            },
+            "lambdaIndex": 1
+          }
+        },
+        {
+          "literal": ") : player"
+        },
+        {
+          "literal": ");\n            }\n\n            if (!found) throw new InvalidOperationException(\"TheoCrystal.Die player lookup was not found.\");\n        }\n\n        private void HookBounds(ILContext il)\n        {\n            var cursor = new ILCursor(il);\n            bool found = false;\n            while (cursor.TryGotoNext(MoveType.After, instruction => instruction.MatchIsinst(typeof(TheoCrystalState))))\n            {\n                found = true;\n                cursor.Emit(OpCodes.Ldarg_0);\n                cursor.EmitDelegate<Func<TheoCrystalState, OriginalLevelSceneRoot, TheoCrystalState>>((theo, level) =>\n                    Owns(level) ? ("
+        },
+        {
+          "indent": 0,
+          "source": {
+            "input": "DisposableTheoModule",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoModule",
+            "memberKind": "method",
+            "memberName": "Level_EnforceBounds",
+            "part": "lambdaBody",
+            "format": "normalize",
+            "maps": {
+              "identifiers": {
+                "Settings": "module.Settings",
+                "theo": "theo"
+              },
+              "memberAccess": {
+                "DisposableTheoTrigger.CanLeaveBehind": "CanLeaveBehind"
+              }
+            },
+            "lambdaIndex": 1
+          }
+        },
+        {
+          "literal": ") : theo"
+        },
+        {
+          "literal": ");\n            }\n\n            if (!found) throw new InvalidOperationException(\"Level.EnforceBounds Theo lookup was not found.\");\n        }\n\n"
+        },
+        {
+          "literal": "        private void Transition(Action<OriginalLevelSceneRoot, OriginalLevelRoomData, Vector2> orig,\n            OriginalLevelSceneRoot level, OriginalLevelRoomData next, Vector2 direction)\n        {\n            if (!Owns(level))\n            {\n                orig(level, next, direction);\n                return;\n            }\n"
+        },
+        {
+          "indent": 3,
+          "source": {
+            "input": "DisposableTheoModule",
+            "type": "Celeste.Mod.DisposableTheo.DisposableTheoModule",
+            "memberKind": "method",
+            "memberName": "Level_TransitionTo",
+            "part": "statements",
+            "format": "normalize",
+            "maps": {
+              "identifiers": {
+                "Settings": "module.Settings",
+                "self": "level"
+              },
+              "types": {
+                "Player": "RoomPlayerSession",
+                "TheoCrystal": "TheoCrystalState"
+              },
+              "memberAccess": {
+                "DisposableTheoTrigger.CanLeaveBehind": "CanLeaveBehind"
+              },
+              "expressions": {
+                "self.Tracker.GetEntity<Player>()": "GetPlayer(level)",
+                "self.Tracker.GetEntities<TheoCrystal>()": "GetTheos(level)",
+                "entity?.Holding?.Entity": "entity?.Holding.Holding?.Entity",
+                "entity2.RemoveTag(Tags.TransitionUpdate)": "RemoveTransitionTag(entity2)"
+              }
+            }
+          }
+        },
+        {
+          "literal": "\n        }\n\n        private static RoomPlayerSession GetPlayer(OriginalLevelSceneRoot level)\n            => level.SourceScene.Entities.GetTrackedEntity<RoomPlayerSession>(typeof(RoomPlayerSession).FullName);\n\n        private static IEnumerable<TheoCrystalState> GetTheos(OriginalLevelSceneRoot level)\n        {\n            foreach (TheoCrystalState theo in level.SourceScene.Entities.GetTrackedEntities(\"Celeste.TheoCrystal\"))\n                yield return theo;\n        }\n\n        private void RemoveTransitionTag(TheoCrystalState theo)\n        {\n            int tag = ((ISourcePersistentTransitionExecutionTagsEnvironment)module.Engine)\n                .PersistentTransitionExecutionTags.TransitionUpdate.Value;\n            theo.Tags &= ~tag;\n        }\n    }\n}\n"
+        }
+      ]
+    },
+    {
+      "path": "Celeste.Mods.DisposableTheo.csproj",
+      "sha256": "9aaf5c25d05fccf2aa03baf8721e7f6c213d91c9785f3713f5255ce1298582cd",
+      "segments": [
+        {
+          "literal": "<Project Sdk=\"Microsoft.NET.Sdk\">\n  <PropertyGroup>\n    <TargetFramework>netstandard2.1</TargetFramework>\n    <LangVersion>latest</LangVersion>\n    <Nullable>disable</Nullable>\n    <AssemblyName>Celeste.Mods.DisposableTheo</AssemblyName>\n    <SharedBinaryDirectory>$(SharedRoot)/src/Celeste.Everest/bin/Release/netstandard2.1</SharedBinaryDirectory>\n  </PropertyGroup>\n  <ItemGroup>\n    <Reference Include=\"$(SharedBinaryDirectory)/Celeste.*.dll\" Private=\"false\" />\n    <PackageReference Include=\"MonoMod.RuntimeDetour\" Version=\"25.3.6\" />\n  </ItemGroup>\n</Project>\n"
+        }
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "id": "original",
+      "path": "DisposableTheoTrigger.decompiled.cs",
+      "sha256": "c2b5eb94eebb79c3febb4535ef985a698775274b67d90e38ad99dfd2cb9c47cd"
+    },
+    {
+      "id": "DisposableTheoModule",
+      "path": "DisposableTheoModule.decompiled.cs",
+      "sha256": "0443842d4cb8288358c0d99cb68cc213ad9ec4472b346d5de461e3d413da0665"
+    },
+    {
+      "id": "DisposableTheoSettings",
+      "path": "DisposableTheoSettings.decompiled.cs",
+      "sha256": "a018920556bae96dc034a6d8e16a7240e25843f0edfaf41e791210140537df1e"
+    }
+  ],
+  "schemaVersion": 1,
+  "newline": "lf"
+}

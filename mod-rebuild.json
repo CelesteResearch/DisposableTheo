@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "DisposableTheo",
+  "version": "1.0.6",
+  "mode": "local-rebuild",
+  "archive": {
+    "path": "DisposableTheo.zip",
+    "sha256": "df291c0175df46682791fb6373c47eb557c47483eca3db96895eba9b5bbe85b5",
+    "downloadUrl": "https://gamebanana.com/mmdl/929736",
+    "fileId": 929736
+  },
+  "originalAssembly": {
+    "entry": "DisposableTheo.dll",
+    "sha256": "1d47c08238fd0dd29eaa5c6e53a36e7d72942fdb7b7abc2a3870f09fbc952dcc"
+  },
+  "license": "CC-BY-NC-ND-4.0",
+  "upstream": "https://gamebanana.com/mods/53752",
+  "recipe": "Recipe/recipe.json",
+  "assemblyName": "Celeste.Mods.DisposableTheo",
+  "dependencies": [],
+  "decompileTypes": [
+    {
+      "path": "DisposableTheoTrigger.decompiled.cs",
+      "sha256": "c2b5eb94eebb79c3febb4535ef985a698775274b67d90e38ad99dfd2cb9c47cd",
+      "name": "Celeste.Mod.DisposableTheo.DisposableTheoTrigger"
+    },
+    {
+      "path": "DisposableTheoModule.decompiled.cs",
+      "sha256": "0443842d4cb8288358c0d99cb68cc213ad9ec4472b346d5de461e3d413da0665",
+      "name": "Celeste.Mod.DisposableTheo.DisposableTheoModule"
+    },
+    {
+      "path": "DisposableTheoSettings.decompiled.cs",
+      "sha256": "a018920556bae96dc034a6d8e16a7240e25843f0edfaf41e791210140537df1e",
+      "name": "Celeste.Mod.DisposableTheo.DisposableTheoSettings"
+    }
+  ]
+}
